@@ -9,8 +9,141 @@ const OUTPUT_DIR = path.resolve(__dirname, "output");
 const outputPath = path.join(OUTPUT_DIR, "team.html");
 
 const render = require("./lib/htmlRenderer");
+const { resolveSoa } = require("dns");
 
+function init() {
+    const questions = [
+        {
+            type: "input",
+            message: "What would you like to name your team?",
+            name: "teamName",
+        },
+    ];
+    inquirer.prompt(questions).then((res) => {
+        console.log(res);
+        askMember();
+    });
+}
 
+init();
+
+function askMember() {
+    const continueQuestion = [
+        {
+            type: "confirm",
+            message: "Would you like to add a team member?",
+            name: "continueCheck",
+        },
+    ];
+    inquirer.prompt(continueQuestion).then((res) => {
+        console.log(res);
+        if (res.continueCheck === true) {
+            const questions = [
+                {
+                    type: "input",
+                    message: "What type of team member would you like to add??",
+                    name: "teamMemberType",
+                },
+            ];
+            inquirer.prompt(questions).then((res) => {
+                console.log(res);
+                switch (res.teamMemberType) {
+                    case "intern":
+                        intern();
+                        break;
+                    case "manager":
+                        manager();
+                        break;
+                    case "engineer":
+                        engineer();
+                        break;
+                }
+            });
+        }
+    });
+}
+
+function intern() {
+    const questions = [
+        {
+            type: "input",
+            message: "What is the intern's name?",
+            name: "internName",
+        },
+        {
+            type: "input",
+            message: "What is the intern's id?",
+            name: "internId",
+        },
+        {
+            type: "input",
+            message: "What is the intern's email?",
+            name: "internEmail",
+        },
+        {
+            type: "input",
+            message: "What is the intern's current school?",
+            name: "internSchool",
+        },
+    ];
+    inquirer.prompt(questions).then((res) => {
+        console.log(res);
+    });
+}
+function manager() {
+    const questions = [
+        {
+            type: "input",
+            message: "What is the manager's name?",
+            name: "managerName",
+        },
+        {
+            type: "input",
+            message: "What is the manager's id?",
+            name: "managerId",
+        },
+        {
+            type: "input",
+            message: "What is the manager's email?",
+            name: "managerEmail",
+        },
+        {
+            type: "input",
+            message: "What is the manager's office number?",
+            name: "managerOffice",
+        },
+    ];
+    inquirer.prompt(questions).then((res) => {
+        console.log(res);
+    });
+}
+function engineer() {
+    const questions = [
+        {
+            type: "input",
+            message: "What is the engineer's name?",
+            name: "engineerName",
+        },
+        {
+            type: "input",
+            message: "What is the engineer's id?",
+            name: "engineerId",
+        },
+        {
+            type: "input",
+            message: "What is the engineer's email?",
+            name: "engineerEmail",
+        },
+        {
+            type: "input",
+            message: "What is the engineer's github username?",
+            name: "engineerGithub",
+        },
+    ];
+    inquirer.prompt(questions).then((res) => {
+        console.log(res);
+    });
+}
 // Write code to use inquirer to gather information about the development team members,
 // and to create objects for each team member (using the correct classes as blueprints!)
 
