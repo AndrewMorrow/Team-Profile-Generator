@@ -59,6 +59,8 @@ function askMember() {
                         break;
                 }
             });
+        } else {
+            console.log("stop");
         }
     });
 }
@@ -88,6 +90,13 @@ function intern() {
     ];
     inquirer.prompt(questions).then((res) => {
         console.log(res);
+
+        const person = new Intern(
+            res.internName,
+            res.internId,
+            res.internEmail,
+            res.internSchool
+        );
     });
 }
 function manager() {
