@@ -13,17 +13,7 @@ const render = require("./lib/htmlRenderer");
 const { resolveSoa } = require("dns");
 
 function init() {
-    const questions = [
-        {
-            type: "input",
-            message: "What would you like to name your team?",
-            name: "teamName",
-        },
-    ];
-    inquirer.prompt(questions).then((res) => {
-        console.log(res);
-        askMember();
-    });
+    askMember();
 }
 
 init();
@@ -37,7 +27,6 @@ function askMember() {
         },
     ];
     inquirer.prompt(continueQuestion).then((res) => {
-        console.log(res);
         if (res.continueCheck === true) {
             const questions = [
                 {
@@ -47,7 +36,6 @@ function askMember() {
                 },
             ];
             inquirer.prompt(questions).then((res) => {
-                console.log(res);
                 switch (res.teamMemberType) {
                     case "intern":
                         intern();
@@ -61,8 +49,6 @@ function askMember() {
                 }
             });
         } else {
-            // console.log("stop");
-
             writeHtml("index.html", render(employeeArray));
         }
     });
@@ -92,8 +78,6 @@ function intern() {
         },
     ];
     inquirer.prompt(questions).then((res) => {
-        console.log(res);
-
         const person = new Intern(
             res.internName,
             res.internId,
@@ -101,7 +85,6 @@ function intern() {
             res.internSchool
         );
         employeeArray.push(person);
-        // console.log(person);
         askMember();
     });
 }
@@ -129,7 +112,14 @@ function manager() {
         },
     ];
     inquirer.prompt(questions).then((res) => {
-        console.log(res);
+        const person = new Manager(
+            res.managerName,
+            res.managerId,
+            res.managerEmail,
+            res.managerOffice
+        );
+        employeeArray.push(person);
+        askMember();
     });
 }
 function engineer() {
@@ -156,12 +146,19 @@ function engineer() {
         },
     ];
     inquirer.prompt(questions).then((res) => {
-        console.log(res);
+        const person = new Manager(
+            res.engineerName,
+            res.engineerId,
+            res.engineerEmail,
+            res.engineerGithub
+        );
+        employeeArray.push(person);
+        askMember();
     });
 }
 
 function writeHtml(filename, res) {
-    return fs.writeFileSync(path.join(__dirname, filename), res);
+    return fs.writeFileSync(path.join(outputPath, filename), res);
 }
 // Write code to use inquirer to gather information about the development team members,
 // and to create objects for each team member (using the correct classes as blueprints!)
