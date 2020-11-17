@@ -53,6 +53,9 @@ function askMember() {
         }
     });
 }
+function writeHtml(fileName, data) {
+    return fs.writeFileSync(path.join(outputPath, fileName), data);
+}
 
 function intern() {
     const questions = [
@@ -146,7 +149,7 @@ function engineer() {
         },
     ];
     inquirer.prompt(questions).then((res) => {
-        const person = new Manager(
+        const person = new Engineer(
             res.engineerName,
             res.engineerId,
             res.engineerEmail,
@@ -157,9 +160,6 @@ function engineer() {
     });
 }
 
-function writeHtml(filename, res) {
-    return fs.writeFileSync(path.join(outputPath, filename), res);
-}
 // Write code to use inquirer to gather information about the development team members,
 // and to create objects for each team member (using the correct classes as blueprints!)
 
