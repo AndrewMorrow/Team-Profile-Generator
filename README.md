@@ -23,6 +23,9 @@ This application requires Node.js which can be downloaded <a href="https://nodej
 
 The user will follow the prompts to add team members with the choices between a intern, manager, and engineer. There will be different questions associated each team member type. Once the user selects to not add anymore team members a "team.html" file will be generated in an "output" directory.
 
+Click the image below to view the demo video!
+[![Demo Video](assets/images/teamProfileGeneratorScreenshot.png)](https://drive.google.com/file/d/1brSJHCwnpqSAuIlLjuD41sfT_dAcxAlJ/view)
+
 ## License
 
 This project is utilizing the N/A license
