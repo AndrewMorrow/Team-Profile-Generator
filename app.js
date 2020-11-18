@@ -6,11 +6,7 @@ const path = require("path");
 const fs = require("fs");
 const employeeArray = [];
 
-const OUTPUT_DIR = path.resolve(__dirname, "output");
-const outputPath = path.join(OUTPUT_DIR, "team.html");
-
 const render = require("./lib/htmlRenderer");
-const { resolveSoa } = require("dns");
 
 function init() {
     askMember();
@@ -19,6 +15,9 @@ function init() {
 init();
 
 function askMember() {
+    const OUTPUT_DIR = path.resolve(__dirname, "output");
+    const outputPath = path.join(OUTPUT_DIR, "team.html");
+
     const continueQuestion = [
         {
             type: "confirm",
@@ -27,34 +26,62 @@ function askMember() {
         },
     ];
     inquirer.prompt(continueQuestion).then((res) => {
-        if (res.continueCheck === true) {
-            const questions = [
-                {
-                    type: "input",
-                    message: "What type of team member would you like to add??",
-                    name: "teamMemberType",
-                },
-            ];
-            inquirer.prompt(questions).then((res) => {
-                switch (res.teamMemberType) {
-                    case "intern":
-                        intern();
-                        break;
-                    case "manager":
-                        manager();
-                        break;
-                    case "engineer":
-                        engineer();
-                        break;
-                }
-            });
-        } else {
-            writeHtml("index.html", render(employeeArray));
-        }
+        memberType();
     });
 }
-function writeHtml(fileName, data) {
-    return fs.writeFileSync(path.join(outputPath, fileName), data);
+function dirExists(dirPath) {
+    var dirname = path.dirname(dirPath);
+    if (fs.existsSync(dirname)) {
+        return true;
+    }
+    fs.mkdirSync(dirname);
+}
+
+function fileExists(filePath) {
+    var fileName = path.basename(filePath);
+    if (fs.existsSync(fileName)) {
+        return true;
+    }
+    fs.writeFileSync(filePath, "");
+}
+
+function writeHtml(filePath, data) {
+    return fs.writeFileSync(filePath, data);
+}
+
+function memberType() {
+    if (res.continueCheck === true) {
+        const questions = [
+            {
+                type: "input",
+                message: "What type of team member would you like to add??",
+                name: "teamMemberType",
+            },
+        ];
+        inquirer.prompt(questions).then((res) => {
+            let upperRes = res.teamMemberType.toUpperCase();
+            switch (upperRes) {
+                case "INTERN":
+                    intern();
+                    break;
+                case "MANAGER":
+                    manager();
+                    break;
+                case "ENGINEER":
+                    engineer();
+                    break;
+                default:
+                    console.log(
+                        "That was not a valid input. Please enter intern, manager, or engineer."
+                    );
+            }
+        });
+    } else {
+        dirExists(outputPath);
+        fileExists(outputPath);
+        writeHtml(outputPath, render(employeeArray));
+        console.log("Please check the output directory for your html file.");
+    }
 }
 
 function intern() {
