@@ -20,13 +20,33 @@ function askMember() {
 
     const continueQuestion = [
         {
-            type: "confirm",
+            type: "input",
             message: "Would you like to add a team member?",
             name: "continueCheck",
         },
     ];
     inquirer.prompt(continueQuestion).then((res) => {
-        memberType();
+        let upperCheck = res.continueCheck.toUpperCase();
+        switch (upperCheck) {
+            case "Y":
+            case "YES":
+                memberType();
+                break;
+            case "N":
+            case "NO":
+                dirExists(outputPath);
+                fileExists(outputPath);
+                writeHtml(outputPath, render(employeeArray));
+                console.log(
+                    "Please check the output directory for your html file."
+                );
+                break;
+            default:
+                console.log(
+                    "That was not a valid input. Please enter 'n' for 'no' or 'y' for 'yes'."
+                );
+                askMember();
+        }
     });
 }
 function dirExists(dirPath) {
@@ -50,38 +70,32 @@ function writeHtml(filePath, data) {
 }
 
 function memberType() {
-    if (res.continueCheck === true) {
-        const questions = [
-            {
-                type: "input",
-                message: "What type of team member would you like to add??",
-                name: "teamMemberType",
-            },
-        ];
-        inquirer.prompt(questions).then((res) => {
-            let upperRes = res.teamMemberType.toUpperCase();
-            switch (upperRes) {
-                case "INTERN":
-                    intern();
-                    break;
-                case "MANAGER":
-                    manager();
-                    break;
-                case "ENGINEER":
-                    engineer();
-                    break;
-                default:
-                    console.log(
-                        "That was not a valid input. Please enter intern, manager, or engineer."
-                    );
-            }
-        });
-    } else {
-        dirExists(outputPath);
-        fileExists(outputPath);
-        writeHtml(outputPath, render(employeeArray));
-        console.log("Please check the output directory for your html file.");
-    }
+    const questions = [
+        {
+            type: "input",
+            message: "What type of team member would you like to add?",
+            name: "teamMemberType",
+        },
+    ];
+    inquirer.prompt(questions).then((res) => {
+        let upperRes = res.teamMemberType.toUpperCase();
+        switch (upperRes) {
+            case "INTERN":
+                intern();
+                break;
+            case "MANAGER":
+                manager();
+                break;
+            case "ENGINEER":
+                engineer();
+                break;
+            default:
+                console.log(
+                    "That was not a valid input. Please enter intern, manager, or engineer."
+                );
+                memberType();
+        }
+    });
 }
 
 function intern() {
@@ -115,6 +129,7 @@ function intern() {
             res.internSchool
         );
         employeeArray.push(person);
+        console.log("A intern has been added!");
         askMember();
     });
 }
@@ -149,6 +164,7 @@ function manager() {
             res.managerOffice
         );
         employeeArray.push(person);
+        console.log("A manager has been added!");
         askMember();
     });
 }
@@ -183,6 +199,7 @@ function engineer() {
             res.engineerGithub
         );
         employeeArray.push(person);
+        console.log("A engineer has been added!");
         askMember();
     });
 }
