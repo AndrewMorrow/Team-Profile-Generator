@@ -42,6 +42,6 @@ For testing you will need to run the app.js with node. The program will the prom
 
 If there are further questions please contact me with the following.
 
-<img src = "images/githubLogoCrop.png" alt= 'Github Logo' width="15px" height="15px"> AndrewMorrow - <a href="https://github.com/AndrewMorrow" target= "_blank">Github</a>
+<img src = "assets/images/githubLogoCrop.png" alt= 'Github Logo' width="15px" height="15px"> AndrewMorrow - <a href="https://github.com/AndrewMorrow" target= "_blank">Github</a>
 
 Email: beardedmongo@gmail.com
